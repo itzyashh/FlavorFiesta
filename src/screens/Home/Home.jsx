@@ -1,21 +1,42 @@
-import { Button, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SearchBar from '../../components/SearchBar/SearchBar'
-import { useDispatch, useSelector } from 'react-redux'
-import { setFirstName } from '../../redux/reducers/User'
+import { moderateScale } from '../../../assets/style/scalling'
+import Edamam from '../../api/Edamam'
 
 const Home = () => {
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
-  const onPress = () => {
-      dispatch(setFirstName('John'))
+  const [searchText, setSearchText] = React.useState('')
+
+
+  const searchApi = async () => {
+    console.log('searchApi')
+    try {
+      const response = await Edamam.get('/',{
+        params: {
+          type: 'public',
+          cuisineType: 'Indian',
+        },
+      })
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
+
+  React.useEffect(() => {
+    searchApi()
+  }
+  , [searchText])
+
   return (
     <SafeAreaView>
-      <SearchBar />
-      <Text>{user.firstName}</Text>
-      <Button title="Tap" onPress={onPress} />
+    <View
+      style={{
+        marginHorizontal: moderateScale(16),
+      }}>
+      <SearchBar onSubmit={setSearchText} />
+    </View>
     </SafeAreaView>
   )
 }

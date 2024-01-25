@@ -8,8 +8,9 @@ import { setFirstName } from '../../redux/reducers/User'
 import { Button } from 'react-native-paper'
 
 const SearchBar = ({
-  onChangeText,
+  onSubmit
 }) => {
+  const [searchText, setSearchText] = React.useState('')
   return (
     <View style={s.container}>
         <EvilIcons name="search" size={24} color={GLOBAL_COLORS.LightOrTrunks} />
@@ -17,7 +18,8 @@ const SearchBar = ({
             style={s.input}
             placeholder="Search recipes"
             placeholderTextColor={GLOBAL_COLORS.LightOrTrunks}
-            onChangeText={onChangeText}
+            onChangeText={setSearchText}
+            onSubmitEditing={() => onSubmit(searchText)}
             />
     </View>
   )
