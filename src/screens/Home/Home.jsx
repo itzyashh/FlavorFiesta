@@ -1,42 +1,70 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import { moderateScale } from '../../../assets/style/scalling'
 import Edamam from '../../api/Edamam'
+import Capsule from '../../components/Capsule/Capsule'
+import CategoryList from '../../components/CategoryList/CategoryList'
+import { s } from './Home.style'
+import DrinkList from '../../components/DrinkList/DrinkList'
+import Card from '../../components/Card/Card'
+import TopRecipe from '../../components/TopRecipe/TopRecipe'
+import HomeCategory from '../../components/MealType/MealType'
+import MealType from '../../components/MealType/MealType'
 
 const Home = () => {
   const [searchText, setSearchText] = React.useState('')
+  const [selectedCategory, setSelectedCategory] = React.useState('Healthy')
+  const [data, setData] = React.useState([])
+  const setSelectedCategoryHandler = (category) => {
+    setSelectedCategory(category)
+  }
 
-
-  const searchApi = async () => {
+  const searchApi = async (text) => {
     console.log('searchApi')
     try {
-      const response = await Edamam.get('/',{
+      const response = await Edamam.get('/', {
         params: {
           type: 'public',
           cuisineType: 'Indian',
+          q: text
         },
       })
-      console.log(response.data)
+      console.log('q',text)
+      setData(response.data.hits)
     } catch (error) {
       console.log(error)
     }
   }
 
   React.useEffect(() => {
-    searchApi()
+    searchApi(selectedCategory)
   }
-  , [searchText])
+    , [searchText, selectedCategory])
 
   return (
     <SafeAreaView>
-    <View
-      style={{
-        marginHorizontal: moderateScale(16),
-      }}>
-      <SearchBar onSubmit={setSearchText} />
-    </View>
+      <View
+        style={s.searchContainer}>
+        <SearchBar onSubmit={
+          (text) => {
+            setSearchText(text)
+            searchApi(text)
+          }
+        } />
+      </View>
+      <View style={s.categoryContainer}>
+        <CategoryList getCategory={setSelectedCategoryHandler} />
+      </View>
+      <View style={s.topRecipeContainer}>
+        <TopRecipe data={data} />
+      </View>
+      <View style={s.MealTypeContainer}>
+        <MealType />
+      </View>
+
+    
     </SafeAreaView>
   )
 }
