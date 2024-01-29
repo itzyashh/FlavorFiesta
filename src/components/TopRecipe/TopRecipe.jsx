@@ -4,16 +4,12 @@ import { s } from './TopRecipe.style'
 import Card from '../Card/Card'
 
 const TopRecipe = ({data}) => {
-  const headerContainer = () => {
-    return (
-      <Text
-      style={s.title}
-      >TopRecipe</Text>
-    )
-  }
+
   return (
     <View>
-  
+        <Text
+      style={s.title}
+      >Top Recipes</Text>
       <FlatList
         data={data.slice(0, 5)}
         horizontal
@@ -27,8 +23,7 @@ const TopRecipe = ({data}) => {
         }
         }
         ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-        ListHeaderComponent={headerContainer}
-        style={s.flatList}
+        style={s.flatList}       
         />
     </View>
   )
