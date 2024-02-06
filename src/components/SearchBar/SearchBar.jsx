@@ -18,6 +18,7 @@ const SearchBar = ({
             style={s.input}
             placeholder="Search recipes"
             placeholderTextColor={GLOBAL_COLORS.LightOrTrunks}
+            autoCorrect={false}
             onChangeText={setSearchText}
             onSubmitEditing={() => onSubmit(searchText)}
             />

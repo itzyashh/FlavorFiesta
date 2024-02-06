@@ -39,7 +39,14 @@ const Home = () => {
   }
 
   React.useEffect(() => {
-    searchApi(selectedCategory)
+    if (selectedCategory === null) {
+    searchApi(searchText)
+    }
+    else {
+      searchApi(selectedCategory)
+    }
+
+
   }
     , [searchText, selectedCategory])
 
@@ -49,13 +56,14 @@ const Home = () => {
         style={s.searchContainer}>
         <SearchBar onSubmit={
           (text) => {
+            setSelectedCategory(null)
             setSearchText(text)
             searchApi(text)
           }
         } />
       </View>
       <View style={s.categoryContainer}>
-        <CategoryList getCategory={setSelectedCategoryHandler} />
+        <CategoryList getCategory={setSelectedCategoryHandler} initialCategory={selectedCategory} />
       </View>
       <View style={s.topRecipeContainer}>
         <TopRecipe data={data} />
