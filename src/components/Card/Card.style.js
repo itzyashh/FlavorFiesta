@@ -27,7 +27,7 @@ export const s = StyleSheet.create({
         color:'white',
         fontSize:moderateScale(16),
         fontWeight:'bold',
-
+        paddingRight:moderateScale(5),
     },
     badge:{
         position:'absolute',

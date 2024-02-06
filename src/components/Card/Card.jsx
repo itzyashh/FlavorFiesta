@@ -17,7 +17,10 @@ const Card = ({
         <Text style={s.badgeText}>{badgeText}</Text>
      </View>}
      <View style={s.labelContainer}>
-     <Text style={s.label}>{label}</Text>
+     <Text
+     ellipsizeMode='tail'
+      numberOfLines={2}
+      style={s.label}>{label}</Text>
         </View>
     </ImageBackground>
   )
